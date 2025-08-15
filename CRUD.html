@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CRUD View</title>
+    <style>
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        margin: 0;
+        padding: 20px;
+    }
+
+    h2 {
+        text-align: center;
+    }
+
+    .crud-container {
+        max-width: 1200px;
+        height: 650px;
+        margin: 0 auto;
+        background-color: #D6EEEC;
+        padding: 30px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        border: 2px solid #004B49;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .list-wrapper {
+        flex-grow: 1;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    form {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        margin-bottom: 10px;
+    }
+
+    input[type="text"],
+    select {
+        font-size: 16px;
+        background-color: #FFFFFF;
+        border: 1px solid #004B49;
+        border-radius: 4px;
+        width: 100%;
+        height: 42px;
+        padding: 0 10px;
+        box-sizing: border-box;
+        text-align: center;
+    }
+
+    button {
+        font-size: 16px;
+        border: none;
+        border-radius: 4px;
+        background-color: #004B49;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        height: 42px;
+        width: 100%;
+    }
+
+    button:hover {
+        background-color: #003936;
+    }
+
+    .red-button {
+        background-color: #FF0000;
+    }
+
+    .red-button:hover {
+        background-color: #CC0000;
+    }
+
+    .action-log {
+        margin-top: 10px;
+        padding: 15px;
+        background-color: #E7F7F6;
+        border-left: 4px solid #004B49;
+        font-size: 14px;
+        color: #FF0000;
+        font-weight: 500;
+        font-style: italic;
+        height: 35px;
+        border-radius: 4px;
+        margin-bottom: 10px;
+        display: flex;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .column-labels,
+    .item-content {
+        display: grid;
+        grid-template-columns: 40px 2fr 1fr 0.7fr 1fr 1.3fr 1fr;
+        gap: 5px;
+        align-items: center;
+        text-align: center;
+    }
+
+    .column-labels {
+        font-weight: bold;
+        padding-bottom: 5px;
+    }
+
+    .crud-item {
+        margin-bottom: 10px;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 6px;
+        height: 42px;
+    }
+
+    .action-buttons button {
+        flex: 1;
+    }
+
+    .section {
+        background-color: #FFF;
+        border: 1px solid #004B49;
+        border-radius: 4px;
+        padding: 8px;
+        text-align: center;
+    }
+
+    .header-with-logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 15px;
+        margin-bottom: 5px;
+    }
+
+    .logo-img {
+        width: 50px;
+        height: auto;
+    }
+
+    .crud-item.edit-mode .display-mode {
+        display: none;
+    }
+
+    .crud-item .edit-mode {
+        display: none;
+    }
+
+    .crud-item.edit-mode .edit-mode {
+        display: grid;
+        grid-template-columns: 40px 2fr 1fr 0.7fr 1fr 1.3fr 1fr;
+        gap: 5px;
+        align-items: center;
+        text-align: center;
+    }
+</style>
+</head>
+<body>
+
+    <<div class="crud-container">
+        <div class="header-with-logo">
+            <img src="state logo.png" alt="State Logo" class="logo-img" />
+            <h2>DEPARTMENT CRUD</h2>
+        </div>
+
+        <div id="action-log" class="action-log">
+            <span style="visibility:visible">
+                Placeholder
+            </span>
+        </div>
+
+        <form id="addDepartmentForm">
+            <input type="text" id="add-dept-name" placeholder="Full Department Name" required />
+            <input type="text" id="add-short-desc" placeholder="Short Description (Optional)" />
+            <select id="add-active-status" required>
+                <option value="true">Active</option>
+                <option value="false">Inactive</option>
+            </select>
+            <input type="text" id="add-modified-by" placeholder="Enter Your Name" required />
+            <input type="hidden" id="add-last-modified" />
+            <button type="submit" style="grid-column: span 2;">Add Department</button>
+        </form>
+
+        <p class="list-label"><center><b>LIST OF DEPARTMENTS:</b></center></p>
+
+        <div class="list-wrapper">
+            <div class="column-labels">
+                <div class="section">#</div>
+                <div class="section">Department Name</div>
+                <div class="section">Short Description</div>
+                <div class="section">Active</div>
+                <div class="section">Modified By</div>
+                <div class="section">Last Modified</div>
+                <div class="section">Actions</div>
+            </div>
+
+            <div class="crud-list">
+                <div class="crud-item" data-id="1">
+                    <div class="item-content display-mode">
+                        <div class="section">1</div>
+                        <div class="section department-name">Management Information System</div>
+                        <div class="section short-desc">MISD</div>
+                        <div class="section active-status">Active</div>
+                        <div class="section modified-by">MISD-NGG (OJT)</div>
+                        <div class="section last-modified">2025-08-15 22:15:56</div>
+                        <div class="action-buttons">
+                            <button type="button" class="edit-btn">Edit</button>
+                            <button type="button" class="delete-btn red-button">Delete</button>
+                        </div>
+                    </div>
+                    
+                    <div class="edit-mode">
+                        <div class="section">1</div>
+                        <input type="text" class="edit-dept-name" value="Department of Example" required />
+                        <input type="text" class="edit-short-desc" value="Dept. Ex." />
+                        <select class="edit-active-status" required>
+                            <option value="true" selected>Active</option>
+                            <option value="false">Inactive</option>
+                        </select>
+                        <input type="text" class="edit-modified-by" value="John Doe" required />
+                        <div class="section last-modified-edit">2025-08-15 22:15:56</div>
+                        <div class="action-buttons">
+                            <button type="button" class="save-btn">Save</button>
+                            <button type="button" class="cancel-btn red-button">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            let departmentId = 2; 
+            
+            function getTimestamp() {
+                const now = new Date();
+                const year = now.getFullYear();
+                const month = String(now.getMonth() + 1).padStart(2, '0');
+                const day = String(now.getDate()).padStart(2, '0');
+                const hours = String(now.getHours()).padStart(2, '0');
+                const minutes = String(now.getMinutes()).padStart(2, '0');
+                const seconds = String(now.getSeconds()).padStart(2, '0');
+                return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+            }
+
+            $('#addDepartmentForm').on('submit', function(e) {
+                e.preventDefault(); 
+
+                const departmentName = $('#add-dept-name').val();
+                const shortDescription = $('#add-short-desc').val();
+                const activeStatus = $('#add-active-status').val() === 'true' ? 'Active' : 'Inactive';
+                const modifiedBy = $('#add-modified-by').val();
+                const lastModified = getTimestamp();
+
+                const newDepartmentHtml = `
+                    <div class="crud-item" data-id="${departmentId}">
+                        <div class="item-content display-mode">
+                            <div class="section">${departmentId}</div>
+                            <div class="section department-name">${departmentName}</div>
+                            <div class="section short-desc">${shortDescription}</div>
+                            <div class="section active-status">${activeStatus}</div>
+                            <div class="section modified-by">${modifiedBy}</div>
+                            <div class="section last-modified">${lastModified}</div>
+                            <div class="action-buttons">
+                                <button type="button" class="edit-btn">Edit</button>
+                                <button type="button" class="delete-btn red-button">Delete</button>
+                            </div>
+                        </div>
+                        <div class="edit-mode">
+                            <div class="section">${departmentId}</div>
+                            <input type="text" class="edit-dept-name" value="${departmentName}" required />
+                            <input type="text" class="edit-short-desc" value="${shortDescription}" />
+                            <select class="edit-active-status" required>
+                                <option value="true" ${activeStatus === 'Active' ? 'selected' : ''}>Active</option>
+                                <option value="false" ${activeStatus === 'Inactive' ? 'selected' : ''}>Inactive</option>
+                            </select>
+                            <input type="text" class="edit-modified-by" value="${modifiedBy}" required />
+                            <div class="section last-modified-edit">${lastModified}</div>
+                            <div class="action-buttons">
+                                <button type="button" class="save-btn">Save</button>
+                                <button type="button" class="cancel-btn red-button">Cancel</button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                $('.crud-list').append(newDepartmentHtml);
+                $('#action-log').text(`Department "${departmentName}" added successfully.`);
+
+                $('#addDepartmentForm')[0].reset();
+                $('#add-active-status').val('true');
+
+                departmentId++;
+            });
+
+            $('.crud-list').on('click', '.edit-btn', function() {
+                const crudItem = $(this).closest('.crud-item');
+                crudItem.addClass('edit-mode');
+                $('#action-log').text('Editing department...');
+            });
+
+            $('.crud-list').on('click', '.save-btn', function() {
+                const crudItem = $(this).closest('.crud-item');
+                const departmentName = crudItem.find('.edit-dept-name').val();
+                const shortDescription = crudItem.find('.edit-short-desc').val();
+                const activeStatusValue = crudItem.find('.edit-active-status').val();
+                const modifiedBy = crudItem.find('.edit-modified-by').val();
+                const lastModified = getTimestamp();
+
+                if (!departmentName || !modifiedBy) {
+                    $('#action-log').text('Please fill in all required fields.');
+                    return;
+                }
+
+                crudItem.find('.department-name').text(departmentName);
+                crudItem.find('.short-desc').text(shortDescription);
+                crudItem.find('.active-status').text(activeStatusValue === 'true' ? 'Active' : 'Inactive');
+                crudItem.find('.modified-by').text(modifiedBy);
+                crudItem.find('.last-modified').text(lastModified);
+
+                crudItem.find('.edit-dept-name').val(departmentName);
+                crudItem.find('.edit-short-desc').val(shortDescription);
+                crudItem.find('.edit-active-status').val(activeStatusValue);
+                crudItem.find('.edit-modified-by').val(modifiedBy);
+                crudItem.find('.last-modified-edit').text(lastModified);
+
+                crudItem.removeClass('edit-mode');
+                $('#action-log').text(`Department "${departmentName}" updated successfully.`);
+            });
+
+            $('.crud-list').on('click', '.cancel-btn', function() {
+                const crudItem = $(this).closest('.crud-item');
+                const originalName = crudItem.find('.department-name').text();
+                const originalShortDesc = crudItem.find('.short-desc').text();
+                const originalActiveStatus = crudItem.find('.active-status').text() === 'Active' ? 'true' : 'false';
+                const originalModifiedBy = crudItem.find('.modified-by').text();
+
+                crudItem.find('.edit-dept-name').val(originalName);
+                crudItem.find('.edit-short-desc').val(originalShortDesc);
+                crudItem.find('.edit-active-status').val(originalActiveStatus);
+                crudItem.find('.edit-modified-by').val(originalModifiedBy);
+
+                crudItem.removeClass('edit-mode');
+                $('#action-log').text('Edit canceled.');
+            });
+
+            $('.crud-list').on('click', '.delete-btn', function() {
+                if (confirm("Are you sure you want to delete this department?")) {
+                    const crudItem = $(this).closest('.crud-item');
+                    const departmentName = crudItem.find('.department-name').text();
+                    crudItem.remove(); 
+                    $('#action-log').text(`Department "${departmentName}" deleted successfully.`);
+                }
+            });
+
+            $('#action-log').text('Ready to add new departments or edit existing ones.');
+        });
+    </script>
+</body>
+</html>
