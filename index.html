@@ -2,86 +2,81 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>CRUD View</title>
-    <link rel="stylesheet" href="CRUD.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Department Management | Futuristic CRUD</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="crud-container">
-        <div class="header-with-logo">
-            <img src="state logo.png" alt="State Logo" class="logo-img" />
-            <h2>DEPARTMENT CRUD</h2>
-        </div>
+    <div class="bg-animate">
+        <div class="bg-grid"></div>
+    </div>
+    
+    <div class="cursor-glow" id="cursor"></div>
 
-        <div id="action-log" class="action-log">
-            <span style="visibility:visible">
-                Placeholder
-            </span>
-        </div>
+    <nav>
+        <div class="logo">DEPARTMENT MANAGEMENT SYSTEM</div>
+    </nav>
 
-        <form id="addDepartmentForm">
-            <input type="text" id="add-dept-name" placeholder="Full Department Name" required />
-            <input type="text" id="add-short-desc" placeholder="Short Description (Optional)" />
-            <select id="add-active-status" required>
-                <option value="true">Active</option>
-                <option value="false">Inactive</option>
-            </select>
-            <input type="text" id="add-modified-by" placeholder="Enter Your Name" required />
-            <input type="hidden" id="add-last-modified" />
-            <button type="submit" style="grid-column: span 2;">Add Department</button>
-        </form>
+    <div class="main-container">
+        <header style="margin-bottom: 30px;">
+            <h2 style="color: white;">Registry Control</h2>
+            <p style="color: var(--text-dim); font-size: 0.85rem;">Standard ISO Formatting Enabled</p>
+        </header>
 
-        <p class="list-label"><center><b>LIST OF DEPARTMENTS:</b></center></p>
-
-        <div class="list-wrapper">
-            <div class="column-labels">
-                <div class="section">#</div>
-                <div class="section">Department Name</div>
-                <div class="section">Short Description</div>
-                <div class="section">Active</div>
-                <div class="section">Modified By</div>
-                <div class="section">Last Modified</div>
-                <div class="section">Actions</div>
+        <form id="deptForm">
+            <input type="hidden" id="editIndex" value="-1">
+            <div class="form-grid">
+                <input type="text" id="deptName" placeholder="Department Name" required>
+                <input type="text" id="deptDesc" placeholder="Description (Optional)">
+                <input type="text" id="modifiedBy" placeholder="Operator Name" required>
+                <select id="activeStatus">
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
             </div>
 
-            <div class="crud-list">
-                <div class="crud-item" data-id="1">
-                    <div class="item-content display-mode">
-                        <div class="section">1</div>
-                        <div class="section department-name">Management Information System</div>
-                        <div class="section short-desc">MISD</div>
-                        <div class="section active-status">Active</div>
-                        <div class="section modified-by">MISD-NGG (OJT)</div>
-                        <div class="section last-modified">2025-08-15 22:15:56</div>
-                        <div class="action-buttons">
-                            <button type="button" class="edit-btn">Edit</button>
-                            <button type="button" class="delete-btn red-button">Delete</button>
-                        </div>
-                    </div>
-                    
-                    <div class="edit-mode">
-                        <div class="section">1</div>
-                        <input type="text" class="edit-dept-name" value="Department of Example" required />
-                        <input type="text" class="edit-short-desc" value="Dept. Ex." />
-                        <select class="edit-active-status" required>
-                            <option value="true" selected>Active</option>
-                            <option value="false">Inactive</option>
-                        </select>
-                        <input type="text" class="edit-modified-by" value="John Doe" required />
-                        <div class="section last-modified-edit">2025-08-15 22:15:56</div>
-                        <div class="action-buttons">
-                            <button type="button" class="save-btn">Save</button>
-                            <button type="button" class="cancel-btn red-button">Cancel</button>
-                        </div>
-                    </div>
-                </div>
-                
+            <div class="btn-group">
+                <button type="submit" id="submitBtn" class="btn-primary">Add Record</button>
+                <button type="button" onclick="clearForm()" class="btn-clear">Clear</button>
+            </div>
+        </form>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Department</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th>Modified By</th>
+                        <th>Timestamp</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="deptTableBody">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+    <div id="deleteModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="warning-icon">⚠️</span>
+                <h3>System Authorization</h3>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to <span class="highlight">PURGE</span> this department record from the registry?</p>
+                <p class="sub-text">This action is logged and cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button onclick="closeModal()" class="btn-cancel">Abort</button>
+                <button id="confirmDeleteBtn" class="btn-confirm">Confirm Purge</button>
             </div>
         </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="CRUD.js">
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>

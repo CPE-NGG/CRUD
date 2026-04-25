@@ -1,0 +1,268 @@
+:root {
+    --bg-color: #050b14;
+    --glass-bg: rgba(255, 255, 255, 0.03);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --neon-blue: #00d2ff;
+    --neon-purple: #9d50bb;
+    --neon-red: #ff4b2b;
+    --text-main: #e0e0e0;
+    --text-dim: #a0a0a0;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    overflow-x: hidden;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+}
+
+/* --- Animated Background --- */
+.bg-animate {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: radial-gradient(circle at 50% 50%, #102a43 0%, #050b14 100%);
+}
+
+.bg-grid {
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background-image: 
+        linear-gradient(rgba(0, 210, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 210, 255, 0.05) 1px, transparent 1px);
+    background-size: 50px 50px;
+    transform: perspective(500px) rotateX(60deg);
+    top: -50%;
+    animation: gridMove 20s linear infinite;
+}
+
+@keyframes gridMove {
+    from { transform: perspective(500px) rotateX(60deg) translateY(0); }
+    to { transform: perspective(500px) rotateX(60deg) translateY(50px); }
+}
+
+/* --- Refined Cursor Glow --- */
+.cursor-glow {
+    position: fixed;
+    width: 150px; 
+    height: 150px;
+    background: radial-gradient(circle, rgba(0, 210, 255, 0.2) 0%, transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    mix-blend-mode: screen;
+}
+
+/* --- Navbar --- */
+nav {
+    width: 100%;
+    padding: 20px 50px;
+    display: flex;
+    justify-content: center; /* Centered since nav links are gone */
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--glass-border);
+    margin-bottom: 40px;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: 2px;
+    color: var(--neon-blue);
+    text-shadow: 0 0 10px var(--neon-blue);
+}
+
+/* --- Main Container --- */
+.main-container {
+    width: 95%;
+    max-width: 1200px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 25px 45px rgba(0,0,0,0.5);
+    margin-bottom: 50px;
+}
+
+/* --- Form --- */
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+input[type="text"], select {
+    width: 100%;
+    padding: 12px 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
+    color: white;
+    outline: none;
+    transition: var(--transition);
+}
+
+/* FIX: Ensure dropdown options are visible (Black text on white background) */
+select option {
+    background-color: white;
+    color: black;
+}
+
+input:focus, select:focus {
+    border-color: var(--neon-blue);
+    box-shadow: 0 0 15px rgba(0, 210, 255, 0.3);
+}
+
+.btn-group {
+    display: flex;
+    gap: 15px;
+}
+
+button {
+    padding: 12px 25px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    text-transform: uppercase;
+    transition: var(--transition);
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, var(--neon-blue), #0081ff);
+    color: white;
+    box-shadow: 0 0 15px rgba(0, 210, 255, 0.4);
+}
+
+.btn-update {
+    background: linear-gradient(45deg, var(--neon-purple), #6a11cb);
+    color: white;
+}
+
+.btn-clear {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-main);
+}
+
+/* --- Table --- */
+.table-wrapper {
+    overflow-x: auto;
+    margin-top: 40px;
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+th {
+    background: rgba(0, 210, 255, 0.1);
+    color: var(--neon-blue);
+    padding: 15px;
+    font-size: 0.85rem;
+}
+
+td {
+    padding: 15px;
+    border-bottom: 1px solid var(--glass-border);
+    font-size: 0.9rem;
+    color: var(--text-dim);
+}
+
+.status-pill {
+    padding: 4px 10px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: bold;
+}
+
+.active { background: rgba(0, 255, 136, 0.2); color: #00ff88; }
+.inactive { background: rgba(255, 75, 43, 0.2); color: #ff4b2b; }
+
+.action-btns { display: flex; gap: 8px; }
+
+.edit-btn { border: 1px solid var(--neon-blue); color: var(--neon-blue); background: transparent; padding: 5px 10px; font-size: 0.7rem; }
+.delete-btn { border: 1px solid var(--neon-red); color: var(--neon-red); background: transparent; padding: 5px 10px; font-size: 0.7rem; }
+
+@keyframes fadeIn { to { opacity: 1; } }
+
+/* Base Overlay Styling */
+.modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(8px);
+    display: none; /* Hidden by default */
+    justify-content: center;
+    align-items: center;
+    z-index: 10000;
+}
+
+/* VARIANT 1: Sleek Glass (Default) */
+.modal-content {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--glass-border);
+    padding: 30px;
+    border-radius: 20px;
+    max-width: 400px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+/* VARIANT 2: Neon Pulse (Add this for high-alert feel) */
+/* .modal-content {
+    border: 1px solid var(--neon-red);
+    box-shadow: 0 0 20px rgba(255, 75, 43, 0.3);
+} 
+*/
+
+/* VARIANT 3: Terminal Style (Monospace/Boxy) */
+/* .modal-content {
+    border-radius: 0;
+    font-family: 'Courier New', monospace;
+    border-left: 5px solid var(--neon-blue);
+} 
+*/
+
+/* Modal Elements */
+.modal-header h3 { color: white; margin-bottom: 15px; letter-spacing: 1px; }
+.modal-body p { color: var(--text-dim); margin-bottom: 10px; font-size: 0.9rem; }
+.highlight { color: var(--neon-red); font-weight: bold; }
+.sub-text { font-size: 0.75rem; opacity: 0.6; }
+
+.modal-footer {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 25px;
+}
+
+.btn-cancel { background: rgba(255,255,255,0.1); color: white; }
+.btn-confirm { 
+    background: linear-gradient(45deg, #ff4b2b, #ff416c); 
+    color: white; 
+    box-shadow: 0 0 15px rgba(255, 75, 43, 0.4);
+}
